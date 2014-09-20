@@ -45,7 +45,8 @@
 			offset: 0,
 			begin: false,
 			end: false,
-			scrollChange: false
+			scrollChange: false,
+			apiDataName: 'onePageNav'
 		},
 
 		init: function() {
@@ -71,6 +72,9 @@
 
 			//Update the positions on resize too
 			this.$win.on('resize.onePageNav', $.proxy(this.getPositions, this));
+
+			// Save API for later use
+			this.$elem.data(this.config.apiDataName, this);
 
 			return this;
 		},
@@ -210,6 +214,29 @@
 		unbindInterval: function() {
 			clearInterval(this.t);
 			this.$win.unbind('scroll.onePageNav');
+		},
+
+		/**
+		 * Clear everything. This is a recycle method.
+		 */
+		destroy: function () {
+			this.unbindInterval();
+
+			this.$nav.off('click.onePageNav');
+			this.$win.off('resize.onePageNav');
+
+			this.$elem.removeData(this.config.apiDataName);
+
+			this.elem = null;
+			this.$elem = null;
+			this.options = null;
+			this.metadata = null;
+			this.$win = null;
+			this.sections = null;
+			this.didScroll = null;
+			this.$doc = null;
+			this.docHeight = null;
+			this.t = null;
 		}
 	};
 
