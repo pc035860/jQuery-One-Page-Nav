@@ -92,6 +92,10 @@
 				self.didScroll = true;
 			});
 
+			// Ensure no interval leaking
+			if (self.t) {
+				clearInterval(self.t);
+			}
 			self.t = setInterval(function() {
 				docHeight = self.$doc.height();
 
