@@ -46,7 +46,8 @@
 			begin: false,
 			end: false,
 			scrollChange: false,
-			apiDataName: 'onePageNav'
+			apiDataName: 'onePageNav',
+			queue: false
 		},
 
 		init: function() {
@@ -210,7 +211,13 @@
 		scrollTo: function(target, callback) {
 			var offset = $(target).offset().top + (this.config.offset || 0);
 
-			$('html, body').animate({
+			var $chain = $('html, body');
+
+			if (!this.config.queue) {
+				$chain = $chain.stop(true, false);
+			}
+
+			$chain.animate({
 				scrollTop: offset
 			}, this.config.scrollSpeed, this.config.easing, callback);
 		},
